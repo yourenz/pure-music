@@ -1,0 +1,45 @@
+{
+  "name": "pure-music",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "dev:tauri": "tauri dev",
+    "build": "tsc && vite build",
+    "build:tauri": "tauri build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "release": "standard-version"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.6.1",
+    "@tauri-apps/cli": "^1.5.9",
+    "@types/node": "^20.10.6",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-format": "^0.1.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "lint-staged": "^15.2.0",
+    "simple-git-hooks": "^2.9.0",
+    "standard-version": "^9.5.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json}": [
+      "eslint --fix"
+    ]
+  }
+}
