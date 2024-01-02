@@ -5,4 +5,7 @@ export default antfu({
   react: true,
   formatters: true,
   ignores: ['node_modules/*', 'public/*', 'dist/*', 'src-tauri/*'],
+  rules: {
+    'no-console': 'off',
+  },
 })
