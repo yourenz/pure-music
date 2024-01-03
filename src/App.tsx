@@ -1,8 +1,9 @@
-function App() {
+import { RouterProvider } from 'react-router-dom'
+import router from '@/routers'
+
+const App: React.FC = () => {
   return (
-    <p>
-      hello pure-music
-    </p>
+    <RouterProvider router={router} />
   )
 }
 
