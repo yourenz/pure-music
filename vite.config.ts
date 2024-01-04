@@ -9,7 +9,6 @@ export default defineConfig({
     react(),
     eslint({
       cache: false,
-      exclude: ['src-tauri', 'node_modules', 'virtual:'],
       eslintPath: 'eslint/use-at-your-own-risk',
     }),
   ],
