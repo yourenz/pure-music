@@ -1,0 +1,36 @@
+{
+  "translation": {
+    "layout": {
+      "theme": {
+        "title": "Theme",
+        "light": "Light",
+        "dark": "Dark"
+      },
+      "lang": {
+        "title": "Language",
+        "zh_CN": "Zh_CN",
+        "en_US": "En_US"
+      }
+    },
+    "pages": {
+      "login": {
+        "loginBtnText": "Sign In with Spotify"
+      }
+    },
+    "request": {
+      "errorText": {
+        "400": "Request Error (400)",
+        "401": "Unauthorized, please login again (401)",
+        "403": "Access Denied (403)",
+        "404": "Request Error (404)",
+        "408": "Request Timeout (408)",
+        "500": "Server Error (500)",
+        "501": "Service Not Implemented (501)",
+        "502": "Network Error (502)",
+        "503": "Service Unavailable (503)",
+        "504": "Network Timeout (504)",
+        "505": "HTTP Version Not Supported (505)"
+      }
+    }
+  }
+}
