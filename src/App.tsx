@@ -3,10 +3,14 @@ import './css/init.css'
 import './css/global.css'
 import { RouterProvider } from 'react-router-dom'
 import router from '@/routers'
+import { Toaster } from '@/components/ui/Sonner'
 
 const App: React.FC = () => {
   return (
-    <RouterProvider router={router} />
+    <>
+      <Toaster />
+      <RouterProvider router={router} />
+    </>
   )
 }
 
