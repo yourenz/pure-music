@@ -1,5 +1,7 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
+import i18n from 'i18next'
+import { toast } from 'sonner'
 
 const instance: AxiosInstance = axios.create({
   baseURL: 'https://api.spotify.com/v1',
@@ -23,6 +25,10 @@ instance.interceptors.response.use(
     return response.data
   },
   (error) => {
+    const msg = i18n.t(`request.errorText.${error.response.status}`)
+    toast.error(msg, {
+      position: 'top-right',
+    })
     return Promise.reject(error.response)
   },
 )
