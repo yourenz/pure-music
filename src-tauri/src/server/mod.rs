@@ -1,6 +1,6 @@
-use std::sync::Mutex;
 use actix_files::Files;
 use actix_web::{middleware, web, App, HttpServer};
+use std::sync::Mutex;
 use tauri::AppHandle;
 
 struct TauriAppState {
