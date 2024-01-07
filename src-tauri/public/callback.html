@@ -8,7 +8,13 @@
 </head>
 
 <body>
-    callback
+    <script>
+        const href = window.location.href;
+        const code = href.substring(href.indexOf('=') + 1)
+        if(code){
+            window.location.href = `pure-music://callback/?code=${code}`
+        }
+    </script>
 </body>
 
 </html>
