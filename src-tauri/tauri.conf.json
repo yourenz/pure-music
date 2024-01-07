@@ -16,7 +16,7 @@
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
+      "category": "Music",
       "copyright": "",
       "deb": {
         "depends": []
@@ -30,7 +30,7 @@
         "icons/icon.ico"
       ],
       "identifier": "com.yourenz.pure-music",
-      "longDescription": "",
+      "longDescription": "pure-music",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -41,7 +41,7 @@
       "resources": [
         "public/*"
       ],
-      "shortDescription": "",
+      "shortDescription": "pure-music",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
