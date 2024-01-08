@@ -9,7 +9,7 @@ import { Toaster } from '@/components/ui/Sonner'
 const App: React.FC = () => {
   useTauriListen({ eventName: 'pure-music-received', cb: (paylod) => {
     const code = paylod?.substring(paylod?.indexOf('=') + 1)
-    window.location.href = `/callback?${code}`
+    window.location.href = `/callback?code=${code}`
   } })
 
   return (

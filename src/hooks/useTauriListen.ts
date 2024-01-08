@@ -13,17 +13,13 @@ function useTauriListen(props: Pps) {
   useEffect(() => {
     if (!config.isTauri)
       return
-    const unlisten = async () => {
-      const listener = await listen(eventName, (event) => {
-        if (event?.payload)
-          cb(event?.payload)
-      })
-      return listener
-    }
+    const unlisten = listen(eventName, (event) => {
+      cb(event.payload)
+    })
     return () => {
-      unlisten()
+      unlisten.then(f => f())
     }
-  }, [eventName])
+  }, [])
 }
 
 export default useTauriListen
