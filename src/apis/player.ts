@@ -6,6 +6,6 @@ import request from '@/utils/request'
 export async function getPlaybackState(options?: SpotifyApi.TrackRelinkingParameterObject) {
   return request<SpotifyApi.CurrentPlaybackResponse>('/me/player', {
     method: 'GET',
-    ...(options || {}),
+    data: options,
   })
 }
