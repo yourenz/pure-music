@@ -2,6 +2,10 @@ import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
 import i18n from 'i18next'
 import { toast } from 'sonner'
+import { getDefaultStore } from 'jotai'
+import { tokenAtom } from '@/atoms/spotify'
+
+const defaultStore = getDefaultStore()
 
 const instance: AxiosInstance = axios.create({
   baseURL: 'https://api.spotify.com/v1',
@@ -10,7 +14,7 @@ const instance: AxiosInstance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const accessToken = ''
+    const accessToken = defaultStore.get(tokenAtom)?.access_token
     if (accessToken)
       config.headers.Authorization = `Bearer ${accessToken}`
     return config
