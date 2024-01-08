@@ -1,11 +1,11 @@
 [package]
-name = "pure-music"
+name = "app"
 version = "0.0.0"
 description = "pure-music"
-authors = [ "yourenz" ]
+authors = ["yourenz <yourenz_work@qq.com>"]
 license = "MIT"
-repository = ""
-default-run = "pure-music"
+repository = "https://github.com/yourenz/pure-music"
+default-run = "app"
 edition = "2021"
 rust-version = "1.60"
 
