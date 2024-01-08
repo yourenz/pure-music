@@ -1,5 +1,6 @@
 import { open } from '@tauri-apps/api/shell'
-import config from './config'
+import config from '@/config'
+import apis from '@/apis'
 
 /**
  * spotify scopes
@@ -70,22 +71,14 @@ class SpotifyWeb {
 
   getAccessToken = async (code: string) => {
     const verifier = localStorage.getItem('verifier')
-
-    const params = new URLSearchParams()
-    params.append('client_id', this.clientId)
-    params.append('grant_type', 'authorization_code')
-    params.append('code', code)
-    params.append('redirect_uri', this.redirectUri)
-    params.append('code_verifier', verifier!)
-
-    const result = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params,
+    const res = await apis.auth.getAccessToken({
+      client_id: this.clientId,
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: this.redirectUri,
+      code_verifier: verifier!,
     })
-
-    const { access_token } = await result.json()
-    return access_token
+    return res
   }
 
   private generateCodeVerifier = (length: number) => {
