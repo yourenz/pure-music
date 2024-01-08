@@ -1,9 +1,10 @@
 import { createBrowserRouter, redirect } from 'react-router-dom'
 import { getDefaultStore } from 'jotai'
+import { loginAtom } from '@/atoms/system'
+import RouteErrorBoundary from '@/components/RouteErrorBoundary'
 import Layout from '@/layout'
 import Login from '@/pages/Login'
-import RouteErrorBoundary from '@/components/RouteErrorBoundary'
-import { loginAtom } from '@/atoms/system'
+import CallBack from '@/pages/CallBack'
 
 const defaultStore = getDefaultStore()
 const isLogin = defaultStore.get(loginAtom)
@@ -23,6 +24,15 @@ const Routers = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+    loader: async () => {
+      if (isLogin)
+        throw redirect('/')
+      return {}
+    },
+  },
+  {
+    path: '/callback',
+    element: <CallBack />,
     loader: async () => {
       if (isLogin)
         throw redirect('/')
