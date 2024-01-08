@@ -1246,4 +1246,22 @@ declare namespace SpotifyApi {
 
   type ContextObjectType = 'artist' | 'playlist' | 'album'
   type PlaybackRepeatState = 'off' | 'track' | 'context'
+
+  /**
+   * getAccessToken
+   */
+  interface TokenOption {
+    client_id: string
+    grant_type: string
+    code: string
+    redirect_uri: string
+    code_verifier: string
+  }
+  interface TokenRes {
+    access_token: string
+    expires_in: number
+    refresh_token: string
+    scope: string
+    token_type: string
+  }
 }
