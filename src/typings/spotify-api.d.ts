@@ -1252,10 +1252,11 @@ declare namespace SpotifyApi {
    */
   interface TokenOption {
     client_id: string
-    grant_type: string
-    code: string
-    redirect_uri: string
-    code_verifier: string
+    grant_type: 'authorization_code' | 'refresh_token'
+    code?: string
+    redirect_uri?: string
+    code_verifier?: string
+    refresh_token?: string
   }
   interface TokenRes {
     access_token: string
