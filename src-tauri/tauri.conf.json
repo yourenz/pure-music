@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "pure-music",
+    "productName": "PureMusic",
     "version": "0.0.0"
   },
   "tauri": {
@@ -34,7 +34,7 @@
         "icons/icon.ico"
       ],
       "identifier": "com.yourenz.pure-music",
-      "longDescription": "pure-music",
+      "longDescription": "",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -45,7 +45,7 @@
       "resources": [
         "public/*"
       ],
-      "shortDescription": "pure-music",
+      "shortDescription": "",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
