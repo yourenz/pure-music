@@ -1,4 +1,4 @@
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
 import i18n from 'i18next'
 import { toast } from 'sonner'
@@ -19,7 +19,7 @@ instance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${accessToken}`
     return config
   },
-  (error) => {
+  (error: AxiosError) => {
     return Promise.reject(error)
   },
 )
@@ -28,12 +28,13 @@ instance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response.data
   },
-  (error) => {
-    const msg = i18n.t(`request.errorText.${error.response.status}`)
+  (error: AxiosError<{ error: string }>) => {
+    const msg = i18n.t(`request.errorText.${error.response?.status}`)
     toast.error(msg, {
       position: 'top-right',
+      description: error.response?.data?.error,
     })
-    return Promise.reject(error.response)
+    return Promise.reject(error.response?.data)
   },
 )
 
