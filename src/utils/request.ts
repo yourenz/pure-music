@@ -14,7 +14,7 @@ const instance: AxiosInstance = axios.create({
   timeout: 5000,
 })
 
-function refreshToken() {
+export function refreshToken() {
   const { refresh_token } = defaultStore.get(tokenAtom)
   return apis.auth.getAccessToken({
     client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
@@ -76,11 +76,11 @@ instance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response.data
   },
-  (error: AxiosError<{ error: string }>) => {
+  (error: AxiosError<{ error: string, error_description: string }>) => {
     const msg = i18n.t(`request.errorText.${error.response?.status}`)
     toast.error(msg, {
       position: 'top-right',
-      description: error.response?.data?.error,
+      description: `${error.response?.data?.error} ${error.response?.data?.error_description}`,
     })
     return Promise.reject(error.response?.data)
   },
