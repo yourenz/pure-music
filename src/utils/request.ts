@@ -2,12 +2,9 @@ import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } fro
 import axios from 'axios'
 import i18n from 'i18next'
 import { toast } from 'sonner'
-import { getDefaultStore } from 'jotai'
 import dayjs from 'dayjs'
-import { tokenAtom } from '@/atoms/spotify'
 import apis from '@/apis'
-
-const defaultStore = getDefaultStore()
+import { useAuthStore } from '@/store/auth'
 
 const instance: AxiosInstance = axios.create({
   baseURL: 'https://api.spotify.com/v1',
@@ -15,7 +12,7 @@ const instance: AxiosInstance = axios.create({
 })
 
 export function refreshToken() {
-  const { refresh_token } = defaultStore.get(tokenAtom)
+  const { refresh_token } = useAuthStore.getState().token
   return apis.auth.getAccessToken({
     client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
     grant_type: 'refresh_token',
@@ -28,7 +25,7 @@ let requests: any[] = []
 
 instance.interceptors.request.use(
   (config) => {
-    const { access_token, expires_in } = defaultStore.get(tokenAtom)
+    const { access_token, expires_in } = useAuthStore.getState().token
     if (access_token && !config.url?.includes('token'))
       config.headers.Authorization = `Bearer ${access_token}`
     if (config.url?.includes('token'))
@@ -41,10 +38,9 @@ instance.interceptors.request.use(
           isRefreshing = true
           refreshToken()
             .then((res) => {
-              const { access_token, expires_in } = res
-              defaultStore.set(tokenAtom, {
-                ...res,
-                expires_in: dayjs().add(expires_in, 'second').unix(),
+              const { access_token } = res
+              useAuthStore.setState({
+                token: res,
               })
               config.headers.Authorization = `Bearer ${access_token}`
               isRefreshing = false

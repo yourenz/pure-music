@@ -1,19 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useAtom } from 'jotai'
-import dayjs from 'dayjs'
 import config from '@/config'
 import SpotifyWeb from '@/SpotifyWeb'
-import { tokenAtom } from '@/atoms/spotify'
-import { loginAtom } from '@/atoms/system'
+import { useLoginStore } from '@/store/system'
+import { useAuthStore } from '@/store/auth'
 
 const CallBack: React.FC = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const callbackCode = queryParams.get('code') as string
-  const [, setToken] = useAtom(tokenAtom)
-  const [, setLogin] = useAtom(loginAtom)
+  const setToken = useAuthStore().setToken
+  const setLogin = useLoginStore().setLogin
 
   const getAccessToken = async () => {
     const S = new SpotifyWeb({
@@ -21,10 +19,7 @@ const CallBack: React.FC = () => {
       redirectUri: config.redirectUri,
     })
     const res = await S.getAccessToken(callbackCode)
-    setToken({
-      ...res,
-      expires_in: dayjs().add(res.expires_in, 'second').unix(),
-    })
+    setToken(res)
     setLogin(true)
     window.location.href = '/'
   }
