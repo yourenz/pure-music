@@ -2,7 +2,6 @@ import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } fro
 import axios from 'axios'
 import i18n from 'i18next'
 import { toast } from 'sonner'
-import dayjs from 'dayjs'
 import apis from '@/apis'
 import { useAuthStore } from '@/store/auth'
 
@@ -25,41 +24,37 @@ let requests: any[] = []
 
 instance.interceptors.request.use(
   (config) => {
-    const { access_token, expires_in } = useAuthStore.getState().token
+    const { access_token } = useAuthStore.getState().token
     if (access_token && !config.url?.includes('token'))
       config.headers.Authorization = `Bearer ${access_token}`
     if (config.url?.includes('token'))
       return config
-    if (access_token && expires_in) {
-      const timestamp = dayjs().unix()
-      const isAfter = dayjs(timestamp).isAfter(expires_in)
-      if (isAfter) {
-        if (!isRefreshing) {
-          isRefreshing = true
-          refreshToken()
-            .then((res) => {
-              const { access_token } = res
-              useAuthStore.setState({
-                token: res,
-              })
-              config.headers.Authorization = `Bearer ${access_token}`
-              isRefreshing = false
-              return access_token
-            }).then((access_token) => {
-              requests.forEach(cb => cb(access_token))
-              requests = []
-            }).catch((res) => {
-              console.error('refresh token error: ', res)
+    if (useAuthStore.getState().isExpired()) {
+      if (!isRefreshing) {
+        isRefreshing = true
+        refreshToken()
+          .then((res) => {
+            const { access_token } = res
+            useAuthStore.setState({
+              token: res,
             })
-        }
-        const retryOriginalRequest = new Promise((resolve) => {
-          requests.push((access_token: string) => {
             config.headers.Authorization = `Bearer ${access_token}`
-            resolve(config)
+            isRefreshing = false
+            return access_token
+          }).then((access_token) => {
+            requests.forEach(cb => cb(access_token))
+            requests = []
+          }).catch((res) => {
+            console.error('refresh token error: ', res)
           })
-        })
-        return retryOriginalRequest as any
       }
+      const retryOriginalRequest = new Promise((resolve) => {
+        requests.push((access_token: string) => {
+          config.headers.Authorization = `Bearer ${access_token}`
+          resolve(config)
+        })
+      })
+      return retryOriginalRequest as any
     }
     return config
   },

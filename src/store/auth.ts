@@ -5,13 +5,14 @@ import { devtools, logger, persist } from './middlewares'
 interface AuthState {
   token: SpotifyApi.TokenResponse
   setToken: (token: SpotifyApi.TokenResponse) => void
+  isExpired: () => boolean
 }
 
 export const useAuthStore = create<AuthState>()(
   devtools(
     logger(
       persist(
-        set => ({
+        (set, get) => ({
           token: {
             access_token: '',
             expires_in: 0,
@@ -25,6 +26,17 @@ export const useAuthStore = create<AuthState>()(
               expires_in: dayjs().add(token.expires_in, 'second').unix(),
             },
           })),
+          isExpired: () => {
+            const { access_token, expires_in } = get().token
+            if (access_token && expires_in) {
+              const timestamp = dayjs().unix()
+              const isAfter = dayjs(timestamp).isAfter(expires_in)
+              return isAfter
+            }
+            else {
+              return true
+            }
+          },
         }),
         { name: 'tokenStore' },
       ),
