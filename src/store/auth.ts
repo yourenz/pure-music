@@ -3,8 +3,8 @@ import dayjs from 'dayjs'
 import { devtools, logger, persist } from './middlewares'
 
 interface AuthState {
-  token: SpotifyApi.TokenResponse
-  setToken: (token: SpotifyApi.TokenResponse) => void
+  token: SpotifyApi.TokenRes
+  setToken: (token: SpotifyApi.TokenRes) => void
   isExpired: () => boolean
 }
 
