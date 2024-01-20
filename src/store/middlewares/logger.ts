@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
 import type { State, StateCreator, StoreMutatorIdentifier } from 'zustand'
+import log from '@/utils/Logger'
 
 type Logger = <
   T extends State,
@@ -18,7 +18,7 @@ type LoggerImpl = <T extends State>(
 const loggerImpl: LoggerImpl = (f, name) => (set, get, store) => {
   const loggedSet: typeof set = (...a) => {
     set(...a)
-    console.log('logger', ...(name ? [`${name}:`] : []), get(), dayjs().format('YYYY-MM-DD HH:mm:ss'))
+    log.info(...(name ? [`${name}:`] : []), get())
   }
   store.setState = loggedSet
 
